@@ -67,7 +67,7 @@ public class StdDrawDemo {
 			/* Reduce wait time for each thing drawn, but
 			 * never wait less than 10 milliseconds. */
 			waitTimeMilliseconds = waitTimeMilliseconds - 1;
-			if (waitTimeMilliseconds < 1) {
+			if (waitTimeMilliseconds < 10) {
 				waitTimeMilliseconds = 10;
 			}
 
@@ -108,7 +108,7 @@ public class StdDrawDemo {
 		/** Try commenting out some of these calls and
 		* notice the differences. */
 		drawThree();
-		//drawRandom();
-		//drawZoom();
+		drawRandom();
+		drawZoom();
 	}
 }

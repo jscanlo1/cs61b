@@ -78,7 +78,7 @@ public class NBody {
         double radius = readRadius(filename);
         Body[] planet_array = readBodies(filename);
 
-
+        
         //Play Audio
         /*int SAMPLING_RATE = 44100;
         double hz = 440.0;
