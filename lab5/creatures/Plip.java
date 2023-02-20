@@ -38,7 +38,12 @@ public class Plip extends Creature {
         r = 0;
         g = 0;
         b = 0;
-        energy = e;
+        if (e > 2) {
+            energy = 2;
+        } else {
+            energy = e;
+        }
+
     }
 
     /**
@@ -57,7 +62,12 @@ public class Plip extends Creature {
      * that you get this exactly correct.
      */
     public Color color() {
-        g = 63;
+        r = 99;
+        b = 76;
+
+        //
+        g = (int) (63 + 96 * energy);
+        //System.out.println("Green:" + g);
         return color(r, g, b);
     }
 
@@ -75,6 +85,8 @@ public class Plip extends Creature {
      */
     public void move() {
         // TODO
+        energy = energy - 0.15;
+
     }
 
 
@@ -83,6 +95,10 @@ public class Plip extends Creature {
      */
     public void stay() {
         // TODO
+        energy += 0.2;
+        if (energy > 2) {
+            energy = 2;
+        }
     }
 
     /**
@@ -91,7 +107,9 @@ public class Plip extends Creature {
      * Plip.
      */
     public Plip replicate() {
-        return this;
+        Plip newPlip = new Plip(energy / 2);
+        this.energy = this.energy / 2;
+        return newPlip;
     }
 
     /**
@@ -111,20 +129,54 @@ public class Plip extends Creature {
         // Rule 1
         Deque<Direction> emptyNeighbors = new ArrayDeque<>();
         boolean anyClorus = false;
-        // TODO
-        // (Google: Enhanced for-loop over keys of NEIGHBORS?)
-        // for () {...}
+        boolean anyEmpty = false;
 
-        if (false) { // FIXME
-            // TODO
+        // (Google: Enhanced for-loop over keys of NEIGHBORS?)
+        for (Direction direction : neighbors.keySet()) {
+            Occupant neighbor = neighbors.get(direction);
+
+            if (neighbor.name().equals("empty")) {
+                emptyNeighbors.add(direction);
+                anyEmpty = true;
+            }
+
+            if (neighbor.name().equals("clorus")) {
+                anyClorus = true;
+            }
+        }
+
+        if (!anyEmpty) {
+            return new Action(Action.ActionType.STAY);
         }
 
         // Rule 2
         // HINT: randomEntry(emptyNeighbors)
 
+        if (energy >= 1) {
+            return new Action(Action.ActionType.REPLICATE, randomEntry(emptyNeighbors));
+        }
+
         // Rule 3
+
+        if (anyClorus) {
+            if (Math.random() < 0.5) {
+                return new Action(Action.ActionType.MOVE, randomEntry(emptyNeighbors));
+            }
+        }
 
         // Rule 4
         return new Action(Action.ActionType.STAY);
+    }
+
+    private Direction randomEntry(Deque<Direction> emptyNeighbors) {
+        int arrayMaxIndex = emptyNeighbors.size() - 1;
+
+        int randomIndex = (int) (Math.random() * (arrayMaxIndex + 1));
+
+        for (int i = 0; i < randomIndex; i++) {
+            emptyNeighbors.pop();
+        }
+
+        return emptyNeighbors.pop();
     }
 }

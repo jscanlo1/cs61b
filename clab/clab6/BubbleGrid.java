@@ -13,7 +13,20 @@ public class BubbleGrid {
      * are unique, valid locations in the grid. Must be non-destructive
      * and have no side-effects to grid. */
     public int[] popBubbles(int[][] darts) {
-        // TODO
-        return null;
+        int[] bubbleFalls = new int[darts.length];
+        int row, column;
+
+        for (int t = 0; t < darts.length; t++) {
+            row = darts[t][0];
+            column = darts[t][1];
+
+            bubbleFalls[t] = countFallen(row, column);
+        }
+
+        return bubbleFalls;
+    }
+
+    private int countFallen(int row, int column){
+
     }
 }
